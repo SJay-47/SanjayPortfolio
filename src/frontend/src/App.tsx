@@ -7,6 +7,7 @@ import {
   ArrowRight,
   BookOpen,
   ChevronDown,
+  ChevronRight,
   Github,
   Mail,
   Menu,
@@ -35,6 +36,39 @@ const WORKS = [
     date: "Feb 2026",
     image: "/assets/generated/work-carbon-blockchain.dim_600x400.jpg",
   },
+];
+
+const SKILLS_DATA = [
+  {
+    label: "Programming Languages",
+    items: ["C", "C++", "Python"],
+  },
+  {
+    label: "Soft Skills",
+    items: ["Teamwork", "Critical Task Management", "Creative Thinking"],
+  },
+  {
+    label: "Communication Skills",
+    items: [
+      "Technical Writing",
+      "Oral Presentation",
+      "Written English",
+      "Report Writing",
+    ],
+  },
+  {
+    label: "Tools",
+    items: ["VS Code", "PowerPoint", "Figma", "Canva", "Git"],
+  },
+];
+
+const TOC_ITEMS = [
+  { label: "Home", id: "home" },
+  { label: "Table of Contents", id: "toc" },
+  { label: "Projects", id: "works" },
+  { label: "Skills", id: "skills" },
+  { label: "About", id: "about" },
+  { label: "Contact", id: "contact" },
 ];
 
 function useScrollSpy(ids: string[]) {
@@ -67,7 +101,14 @@ export default function App() {
     message: "",
   });
   const [submitting, setSubmitting] = useState(false);
-  const active = useScrollSpy(["home", "works", "about", "contact"]);
+  const active = useScrollSpy([
+    "home",
+    "toc",
+    "works",
+    "skills",
+    "about",
+    "contact",
+  ]);
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -86,6 +127,7 @@ export default function App() {
   const navLinks = [
     { label: "Home", id: "home" },
     { label: "Projects", id: "works" },
+    { label: "Skills", id: "skills" },
     { label: "About", id: "about" },
     { label: "Contact", id: "contact" },
   ];
@@ -104,12 +146,9 @@ export default function App() {
       {/* Sticky Header */}
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-sm">
         <div className="container mx-auto flex items-center justify-between px-6 py-4 max-w-6xl">
-          {/* Logo */}
           <span className="font-serif text-xl font-bold tracking-tight text-foreground">
             S<span style={{ color: "oklch(72% 0.14 80)" }}>.</span>S
           </span>
-
-          {/* Desktop Nav */}
           <nav
             className="hidden md:flex items-center gap-8"
             data-ocid="nav.panel"
@@ -130,8 +169,6 @@ export default function App() {
               </button>
             ))}
           </nav>
-
-          {/* CTA + Mobile Menu */}
           <div className="flex items-center gap-3">
             <Button
               data-ocid="header.contact.button"
@@ -153,7 +190,6 @@ export default function App() {
           </div>
         </div>
 
-        {/* Mobile Nav */}
         <AnimatePresence initial={false}>
           {mobileOpen && (
             <motion.div
@@ -182,7 +218,7 @@ export default function App() {
         </AnimatePresence>
       </header>
 
-      {/* ── HERO ── */}
+      {/* HERO */}
       <section id="home" className="relative overflow-hidden py-20 md:py-32">
         <div
           className="absolute inset-0 pointer-events-none"
@@ -193,7 +229,6 @@ export default function App() {
         />
         <div className="container mx-auto max-w-6xl px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Left */}
             <motion.div
               initial={{ opacity: 0, y: 32 }}
               animate={{ opacity: 1, y: 0 }}
@@ -240,8 +275,6 @@ export default function App() {
                 </Button>
               </div>
             </motion.div>
-
-            {/* Right — Portrait */}
             <motion.div
               initial={{ opacity: 0, x: 32 }}
               animate={{ opacity: 1, x: 0 }}
@@ -275,8 +308,6 @@ export default function App() {
               </div>
             </motion.div>
           </div>
-
-          {/* Scroll hint */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -285,7 +316,7 @@ export default function App() {
           >
             <button
               type="button"
-              onClick={() => scrollTo("works")}
+              onClick={() => scrollTo("toc")}
               className="flex flex-col items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
             >
               <span className="text-xs tracking-widest uppercase">Scroll</span>
@@ -295,10 +326,63 @@ export default function App() {
         </div>
       </section>
 
-      {/* Gold Divider */}
       <div className="gold-line w-full" />
 
-      {/* ── PROJECTS ── */}
+      {/* TABLE OF CONTENTS */}
+      <section id="toc" className="py-16 md:py-20">
+        <div className="container mx-auto max-w-3xl px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-10"
+          >
+            <p className="section-label mb-3">Navigate</p>
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
+              Table of Contents
+            </h2>
+            <div className="gold-line w-24 mx-auto mt-4" />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="border border-border"
+            style={{ background: "oklch(12% 0.02 15 / 0.7)" }}
+            data-ocid="toc.list"
+          >
+            {TOC_ITEMS.map((item, i) => (
+              <button
+                type="button"
+                key={item.id}
+                data-ocid={`toc.item.${i + 1}`}
+                onClick={() => scrollTo(item.id)}
+                className="group w-full flex items-center gap-5 px-6 py-4 border-b last:border-b-0 border-border hover:bg-card transition-colors text-left"
+              >
+                <span
+                  className="font-serif text-2xl font-bold w-8 shrink-0 select-none"
+                  style={{ color: "oklch(72% 0.14 80)" }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="flex-1 font-serif text-base md:text-lg font-semibold text-foreground tracking-wide group-hover:text-gold transition-colors">
+                  {item.label}
+                </span>
+                <ChevronRight
+                  size={16}
+                  className="shrink-0 text-muted-foreground group-hover:text-gold group-hover:translate-x-1 transition-all"
+                />
+              </button>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      <div className="gold-line w-full" />
+
+      {/* PROJECTS */}
       <section id="works" className="py-20 md:py-28">
         <div className="container mx-auto max-w-6xl px-6">
           <motion.div
@@ -314,7 +398,6 @@ export default function App() {
             </h2>
             <div className="gold-line w-24 mx-auto mt-4" />
           </motion.div>
-
           <div className="grid md:grid-cols-2 gap-6" data-ocid="works.list">
             {WORKS.map((work, i) => (
               <motion.div
@@ -369,14 +452,72 @@ export default function App() {
         </div>
       </section>
 
-      {/* Gold Divider */}
       <div className="gold-line w-full" />
 
-      {/* ── ABOUT ── */}
-      <section id="about" className="py-20 md:py-28 velvet-pattern relative">
+      {/* SKILLS */}
+      <section id="skills" className="py-20 md:py-28 velvet-pattern relative">
+        <div className="container mx-auto max-w-6xl px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-14"
+          >
+            <p className="section-label mb-3">Expertise</p>
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
+              Skills &amp; Competencies
+            </h2>
+            <div className="gold-line w-24 mx-auto mt-4" />
+          </motion.div>
+          <div
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            data-ocid="skills.list"
+          >
+            {SKILLS_DATA.map((cat, i) => (
+              <motion.div
+                key={cat.label}
+                data-ocid={`skills.item.${i + 1}`}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="border border-border p-6"
+                style={{ background: "oklch(12% 0.02 15 / 0.8)" }}
+              >
+                <p
+                  className="text-xs font-semibold tracking-widest uppercase mb-5"
+                  style={{ color: "oklch(72% 0.14 80)" }}
+                >
+                  {cat.label}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {cat.items.map((item) => (
+                    <span
+                      key={item}
+                      className="text-xs px-3 py-1.5 border tracking-wide"
+                      style={{
+                        borderColor: "oklch(72% 0.14 80 / 0.35)",
+                        color: "oklch(85% 0.04 80)",
+                        background: "oklch(72% 0.14 80 / 0.07)",
+                      }}
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="gold-line w-full" />
+
+      {/* ABOUT */}
+      <section id="about" className="py-20 md:py-28 relative">
         <div className="container mx-auto max-w-6xl px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Photo Left */}
             <motion.div
               initial={{ opacity: 0, x: -24 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -398,8 +539,6 @@ export default function App() {
                 />
               </div>
             </motion.div>
-
-            {/* Text Right */}
             <motion.div
               initial={{ opacity: 0, x: 24 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -407,10 +546,29 @@ export default function App() {
               transition={{ duration: 0.7, delay: 0.1 }}
             >
               <p className="section-label mb-3">DATA EXPLORER</p>
-              <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-6">
+              <h2 className="font-serif text-3xl md:text-4xl font-bold text-foreground mb-4">
                 About Me
               </h2>
-              <div className="gold-line w-16 mb-8" />
+              <div className="gold-line w-16 mb-5" />
+              {/* CGPA Badge */}
+              <div
+                className="inline-flex items-center gap-3 mb-6 px-4 py-2 border"
+                style={{
+                  borderColor: "oklch(72% 0.14 80 / 0.5)",
+                  background: "oklch(72% 0.14 80 / 0.08)",
+                }}
+              >
+                <span className="text-xs tracking-widest uppercase text-muted-foreground">
+                  CGPA
+                </span>
+                <span
+                  className="font-serif text-2xl font-bold"
+                  style={{ color: "oklch(72% 0.14 80)" }}
+                >
+                  8.9
+                </span>
+                <span className="text-xs text-muted-foreground">/ 10</span>
+              </div>
               <p className="text-muted-foreground leading-relaxed mb-5">
                 Data fascinated me for a long time. Growing up in an age of
                 software and AI revolution, I found my opportunity to explore my
@@ -440,12 +598,13 @@ export default function App() {
                   ),
                 )}
               </div>
-
-              {/* Skills Grid */}
               <div className="grid grid-cols-3 gap-3">
                 {[
                   { label: "Languages", items: ["C", "C++", "Python"] },
-                  { label: "Tools", items: ["Git"] },
+                  {
+                    label: "Tools",
+                    items: ["VS Code", "PowerPoint", "Figma", "Canva", "Git"],
+                  },
                   { label: "Tech", items: ["Data Structures"] },
                 ].map((col) => (
                   <div
@@ -480,10 +639,9 @@ export default function App() {
         </div>
       </section>
 
-      {/* Gold Divider */}
       <div className="gold-line w-full" />
 
-      {/* ── CONTACT ── */}
+      {/* CONTACT */}
       <section id="contact" className="py-20 md:py-28">
         <div className="container mx-auto max-w-6xl px-6">
           <motion.div
@@ -499,9 +657,7 @@ export default function App() {
             </h2>
             <div className="gold-line w-24 mx-auto mt-4" />
           </motion.div>
-
           <div className="grid md:grid-cols-2 gap-12 items-start">
-            {/* Social Links Left */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -549,7 +705,7 @@ export default function App() {
                     <Github size={16} style={{ color: "oklch(72% 0.14 80)" }} />
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground uppercase tracking-widest mb-0.5">
+                    <p className="text-xs text-muted-foreground uppercase tracking-widests mb-0.5">
                       GitHub
                     </p>
                     <p className="text-foreground text-sm group-hover:text-gold transition-colors">
@@ -568,7 +724,7 @@ export default function App() {
                     />
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground uppercase tracking-widest mb-0.5">
+                    <p className="text-xs text-muted-foreground uppercase tracking-widests mb-0.5">
                       Status
                     </p>
                     <p className="text-foreground text-sm">
@@ -578,8 +734,6 @@ export default function App() {
                 </div>
               </div>
             </motion.div>
-
-            {/* Contact Form Right */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -594,7 +748,7 @@ export default function App() {
                 <div className="space-y-1.5">
                   <Label
                     htmlFor="name"
-                    className="text-xs tracking-widest uppercase text-muted-foreground"
+                    className="text-xs tracking-widests uppercase text-muted-foreground"
                   >
                     Name
                   </Label>
@@ -613,7 +767,7 @@ export default function App() {
                 <div className="space-y-1.5">
                   <Label
                     htmlFor="email"
-                    className="text-xs tracking-widest uppercase text-muted-foreground"
+                    className="text-xs tracking-widests uppercase text-muted-foreground"
                   >
                     Email
                   </Label>
@@ -633,7 +787,7 @@ export default function App() {
                 <div className="space-y-1.5">
                   <Label
                     htmlFor="message"
-                    className="text-xs tracking-widest uppercase text-muted-foreground"
+                    className="text-xs tracking-widests uppercase text-muted-foreground"
                   >
                     Message
                   </Label>
@@ -664,7 +818,49 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
+      {/* QUOTE */}
+      <div className="gold-line w-full" />
+      <section
+        className="py-16 md:py-24"
+        style={{ background: "oklch(11% 0.025 15)" }}
+      >
+        <div className="container mx-auto max-w-3xl px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            <span
+              className="block font-serif leading-none mb-4 select-none"
+              style={{
+                fontSize: "6rem",
+                color: "oklch(72% 0.14 80)",
+                lineHeight: 0.8,
+              }}
+            >
+              &ldquo;
+            </span>
+            <p
+              className="font-serif text-xl md:text-2xl italic leading-relaxed text-foreground mb-6"
+              style={{ color: "oklch(90% 0.03 80)" }}
+            >
+              College is Tackling and Juggling between interests and academics.
+              Things work, sometimes they don't. It's fun and hard at the same
+              time.
+            </p>
+            <p
+              className="text-sm tracking-widest uppercase"
+              style={{ color: "oklch(72% 0.14 80)" }}
+            >
+              — Sanjay Shanmugasundaram
+            </p>
+          </motion.div>
+        </div>
+      </section>
+      <div className="gold-line w-full" />
+
+      {/* FOOTER */}
       <footer className="border-t border-border py-8">
         <div className="container mx-auto max-w-6xl px-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <nav className="flex items-center gap-6">
@@ -681,7 +877,7 @@ export default function App() {
             ))}
           </nav>
           <p className="text-xs text-muted-foreground text-center">
-            © 2026 Sanjay Shanmugasundaram.{" "}
+            © {new Date().getFullYear()} Sanjay Shanmugasundaram.{" "}
             <a
               href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(typeof window !== "undefined" ? window.location.hostname : "")}`}
               target="_blank"
